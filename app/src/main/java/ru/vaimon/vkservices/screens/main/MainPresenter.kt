@@ -2,12 +2,15 @@ package ru.vaimon.vkservices.screens.main
 
 import ru.vaimon.vkservices.models.VKService
 import ru.vaimon.vkservices.screens.main.adapters.VkServicesRecyclerViewAdapter
+import ru.vaimon.vkservices.screens.main.fragments.service_info.InfoFragment
 
 class MainPresenter : MainContract.Presenter {
     private var mView: MainContract.View? = null
     private val mRepository: MainContract.Repository by lazy { MainRepository(this) }
     override val vkServicesRecyclerViewAdapter by lazy{
-        VkServicesRecyclerViewAdapter()
+        VkServicesRecyclerViewAdapter(mListener = object: VkServicesRecyclerViewAdapter.OnItemInteractionListener{
+            override fun onItemInteraction(item: VKService) = onServiceItemClicked(item)
+        })
     }
 
     override fun attachView(view: MainContract.View) {
@@ -31,6 +34,10 @@ class MainPresenter : MainContract.Presenter {
     override fun fetchVkServices(){
         mView?.toggleProgressBar(isProcessRunning = true)
         mRepository.fetchVkServicesInfo()
+    }
+
+    fun onServiceItemClicked(service: VKService){
+        mView?.showBottomDialog(InfoFragment(service))
     }
 
 }

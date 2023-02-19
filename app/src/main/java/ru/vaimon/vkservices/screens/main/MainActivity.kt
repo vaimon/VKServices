@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.vaimon.vkservices.R
 import ru.vaimon.vkservices.databinding.ActivityMainBinding
 
@@ -44,5 +45,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun displayError(message: String){
         Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
+    }
+
+    override fun showBottomDialog(fragment: BottomSheetDialogFragment) {
+        fragment.show(supportFragmentManager, fragment.tag)
     }
 }

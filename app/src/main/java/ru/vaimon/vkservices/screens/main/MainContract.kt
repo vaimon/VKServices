@@ -1,5 +1,6 @@
 package ru.vaimon.vkservices.screens.main
 
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import ru.vaimon.vkservices.models.VKService
 import ru.vaimon.vkservices.screens.main.adapters.VkServicesRecyclerViewAdapter
 
@@ -8,6 +9,7 @@ interface MainContract {
 
         fun displayError(message: String)
         fun toggleProgressBar(isProcessRunning: Boolean)
+        fun showBottomDialog(fragment: BottomSheetDialogFragment)
     }
 
     interface Presenter{
