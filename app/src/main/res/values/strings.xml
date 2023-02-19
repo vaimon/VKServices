@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Сервисы VK</string>
+    <string name="ok">Ок</string>
+    <string name="message_http_exception">Возникла ошибка при обращении к серверу. Повторите попытку позже.</string>
+    <string name="message_io_exception">Какие-то проблемы с сетью. Проверьте соединение и попробуйте ещё раз.</string>
+    <string name="message_unknown_exception">Возникла непредвиденная ошибка. Попробуйте ещё раз</string>
+    <string name="message_img_exception">Возникла ошибка при загрузке изображений. Повторите попытку позже.</string>
 </resources>

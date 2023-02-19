@@ -5,8 +5,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import ru.vaimon.vkservices.R
 import ru.vaimon.vkservices.databinding.ActivityMainBinding
+import ru.vaimon.vkservices.screens.main.fragments.error_alert.ErrorAlertFragment
 
 class MainActivity : AppCompatActivity(), MainContract.View {
     private lateinit var binding: ActivityMainBinding
@@ -43,8 +43,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         binding.isLoading = isProcessRunning
     }
 
-    override fun displayError(message: String){
-        Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
+    override fun displayError(messageResId: Int){
+        ErrorAlertFragment(messageResId).show(
+            supportFragmentManager, ErrorAlertFragment.TAG)
     }
 
     override fun showBottomDialog(fragment: BottomSheetDialogFragment) {

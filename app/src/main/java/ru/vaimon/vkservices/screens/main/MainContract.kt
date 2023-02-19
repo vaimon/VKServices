@@ -7,7 +7,7 @@ import ru.vaimon.vkservices.screens.main.adapters.VkServicesRecyclerViewAdapter
 interface MainContract {
     interface View{
 
-        fun displayError(message: String)
+        fun displayError(messageResId: Int)
         fun toggleProgressBar(isProcessRunning: Boolean)
         fun showBottomDialog(fragment: BottomSheetDialogFragment)
     }
@@ -16,10 +16,9 @@ interface MainContract {
         val vkServicesRecyclerViewAdapter: VkServicesRecyclerViewAdapter
         fun attachView(view: View)
         fun detachView()
-
-        fun onServicesRequestError(message: String)
         fun onVkServicesFetched(services: List<VKService>?)
         fun fetchVkServices()
+        fun onServicesRequestError(e: Throwable)
     }
 
     interface Repository{

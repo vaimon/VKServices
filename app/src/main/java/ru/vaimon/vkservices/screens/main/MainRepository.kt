@@ -6,6 +6,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import ru.vaimon.vkservices.models.VKService
 import ru.vaimon.vkservices.services.RetrofitService
+import java.lang.Exception
 
 class MainRepository(private val mPresenter: MainPresenter): MainContract.Repository {
     private val retrofitService = RetrofitService.create()
@@ -18,14 +19,11 @@ class MainRepository(private val mPresenter: MainPresenter): MainContract.Reposi
             ) {
                 if (response.isSuccessful) {
                     mPresenter.onVkServicesFetched(response.body()?.toList())
-                } else {
-                    mPresenter.onServicesRequestError(response.message())
                 }
             }
 
             override fun onFailure(call: Call<Array<VKService>>, t: Throwable) {
-                Log.d("APP_LOGS","${t.message}")
-                mPresenter.onServicesRequestError(t.message ?: "Some unknown exception occured...")
+                mPresenter.onServicesRequestError(t)
             }
 
         })

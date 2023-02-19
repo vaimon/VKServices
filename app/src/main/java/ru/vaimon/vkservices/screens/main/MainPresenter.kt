@@ -1,15 +1,22 @@
 package ru.vaimon.vkservices.screens.main
 
+import retrofit2.HttpException
+import ru.vaimon.vkservices.R
 import ru.vaimon.vkservices.models.VKService
 import ru.vaimon.vkservices.screens.main.adapters.VkServicesRecyclerViewAdapter
 import ru.vaimon.vkservices.screens.main.fragments.service_info.InfoFragment
+import java.io.IOException
+import java.lang.Exception
 
 class MainPresenter : MainContract.Presenter {
     private var mView: MainContract.View? = null
     private val mRepository: MainContract.Repository by lazy { MainRepository(this) }
     override val vkServicesRecyclerViewAdapter by lazy{
-        VkServicesRecyclerViewAdapter(mListener = object: VkServicesRecyclerViewAdapter.OnItemInteractionListener{
+        VkServicesRecyclerViewAdapter(callbackSet = object: VkServicesRecyclerViewAdapter.VkServicesCallback{
             override fun onItemInteraction(item: VKService) = onServiceItemClicked(item)
+            override fun onError(e: Exception?) {
+                mView?.displayError(R.string.message_img_exception)
+            }
         })
     }
 
@@ -21,9 +28,14 @@ class MainPresenter : MainContract.Presenter {
         mView = null
     }
 
-    override fun onServicesRequestError(message: String) {
+    override fun onServicesRequestError(e: Throwable) {
         mView?.toggleProgressBar(isProcessRunning = false)
-        mView?.displayError(message)
+        // Да, я знаю, что хардкодить - плохо.
+        mView?.displayError(when(e){
+            is HttpException -> R.string.message_http_exception
+            is IOException -> R.string.message_io_exception
+            else -> R.string.message_unknown_exception
+        })
     }
 
     override fun onVkServicesFetched(services: List<VKService>?){

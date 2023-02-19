@@ -11,10 +11,13 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import ru.vaimon.vkservices.R
 import ru.vaimon.vkservices.databinding.FragmentInfoBinding
 import ru.vaimon.vkservices.models.VKService
+import ru.vaimon.vkservices.screens.main.fragments.error_alert.ErrorAlertFragment
+import java.lang.Exception
 
 
 class InfoFragment(
@@ -36,9 +39,17 @@ class InfoFragment(
         binding.serviceName = service.name
         binding.serviceDescription = service.description
         binding.serviceUrl = service.serviceUrl
-        Picasso.with(context)
+        Picasso.get()
             .load(service.iconUrl)
-            .into(binding.ivServiceIcon);
+            .into(binding.ivServiceIcon, object: Callback{
+                override fun onSuccess() {}
+
+                override fun onError(e: Exception?) {
+                    ErrorAlertFragment(R.string.message_img_exception).show(
+                        childFragmentManager, ErrorAlertFragment.TAG)
+                }
+
+            });
         setupUI(binding)
         return binding.getRoot()
     }
