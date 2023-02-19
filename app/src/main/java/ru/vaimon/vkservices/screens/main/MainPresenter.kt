@@ -7,7 +7,7 @@ class MainPresenter : MainContract.Presenter {
     private var mView: MainContract.View? = null
     private val mRepository: MainContract.Repository by lazy { MainRepository(this) }
     override val vkServicesRecyclerViewAdapter by lazy{
-        VkServicesRecyclerViewAdapter(listOf(VKService("SkillFactory","Обучение цифровым профессиям: работа с данными, машинное обучение","https://mobile-olympiad-trajectory.hb.bizmrg.com/logo-skillfactory.png", "https://skillfactory.ru/")))
+        VkServicesRecyclerViewAdapter()
     }
 
     override fun attachView(view: MainContract.View) {
@@ -16,6 +16,21 @@ class MainPresenter : MainContract.Presenter {
 
     override fun detachView(){
         mView = null
+    }
+
+    override fun onServicesRequestError(message: String) {
+        mView?.toggleProgressBar(isProcessRunning = false)
+        mView?.displayError(message)
+    }
+
+    override fun onVkServicesFetched(services: List<VKService>?){
+        mView?.toggleProgressBar(isProcessRunning = false)
+        vkServicesRecyclerViewAdapter.replaceData(services ?: listOf())
+    }
+
+    override fun fetchVkServices(){
+        mView?.toggleProgressBar(isProcessRunning = true)
+        mRepository.fetchVkServicesInfo()
     }
 
 }

@@ -2,6 +2,7 @@ package ru.vaimon.vkservices.screens.main
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.vaimon.vkservices.R
 import ru.vaimon.vkservices.databinding.ActivityMainBinding
@@ -17,6 +18,7 @@ class MainActivity : AppCompatActivity(), MainContract.View {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setupUI()
+        mPresenter.fetchVkServices()
     }
 
     override fun onStart() {
@@ -30,10 +32,17 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     private fun setupUI() {
-        binding.isLoading = true
         binding.rvVKServices.apply {
             adapter = mPresenter.vkServicesRecyclerViewAdapter
             layoutManager = LinearLayoutManager(context)
         }
+    }
+
+    override fun toggleProgressBar(isProcessRunning: Boolean){
+        binding.isLoading = isProcessRunning
+    }
+
+    override fun displayError(message: String){
+        Toast.makeText(applicationContext,message,Toast.LENGTH_LONG).show()
     }
 }

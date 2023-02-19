@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import ru.vaimon.vkservices.databinding.ItemVkserviceBinding
 import ru.vaimon.vkservices.models.VKService
 
@@ -32,7 +33,9 @@ class VkServicesRecyclerViewAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = values[position]
         holder.serviceName.text = item.name
-        Log.d("Hi", "Hello?")
+        Picasso.with(holder.itemView.context)
+            .load(item.iconUrl)
+            .into(holder.serviceIcon);
 
         mListener?.also {
             with(holder.itemView) {
@@ -44,9 +47,15 @@ class VkServicesRecyclerViewAdapter(
 
     override fun getItemCount(): Int = values.size
 
+    fun replaceData(newData: List<VKService>){
+        values = newData
+        notifyDataSetChanged()
+    }
+
     inner class ViewHolder(binding: ItemVkserviceBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val serviceName = binding.tvVkServiceName
+        val serviceIcon = binding.ivVkServiceIcon
     }
 
     interface OnItemInteractionListener {
