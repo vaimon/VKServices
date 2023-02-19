@@ -5,4 +5,5 @@
     <string name="message_io_exception">Какие-то проблемы с сетью. Проверьте соединение и попробуйте ещё раз.</string>
     <string name="message_unknown_exception">Возникла непредвиденная ошибка. Попробуйте ещё раз</string>
     <string name="message_img_exception">Возникла ошибка при загрузке изображений. Повторите попытку позже.</string>
+    <string name="retry">Повторить</string>
 </resources>

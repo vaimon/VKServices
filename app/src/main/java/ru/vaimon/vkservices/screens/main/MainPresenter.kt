@@ -30,12 +30,12 @@ class MainPresenter : MainContract.Presenter {
 
     override fun onServicesRequestError(e: Throwable) {
         mView?.toggleProgressBar(isProcessRunning = false)
-        // Да, я знаю, что хардкодить - плохо.
         mView?.displayError(when(e){
             is HttpException -> R.string.message_http_exception
             is IOException -> R.string.message_io_exception
             else -> R.string.message_unknown_exception
         })
+        mView?.toggleRetryButton(true)
     }
 
     override fun onVkServicesFetched(services: List<VKService>?){
@@ -50,6 +50,11 @@ class MainPresenter : MainContract.Presenter {
 
     fun onServiceItemClicked(service: VKService){
         mView?.showBottomDialog(InfoFragment(service))
+    }
+
+    override fun onRetryButtonClicked(){
+        mView?.toggleRetryButton(false)
+        fetchVkServices()
     }
 
 }

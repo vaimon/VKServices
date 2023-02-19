@@ -10,6 +10,7 @@ interface MainContract {
         fun displayError(messageResId: Int)
         fun toggleProgressBar(isProcessRunning: Boolean)
         fun showBottomDialog(fragment: BottomSheetDialogFragment)
+        fun toggleRetryButton(isVisible: Boolean)
     }
 
     interface Presenter{
@@ -19,6 +20,7 @@ interface MainContract {
         fun onVkServicesFetched(services: List<VKService>?)
         fun fetchVkServices()
         fun onServicesRequestError(e: Throwable)
+        fun onRetryButtonClicked()
     }
 
     interface Repository{

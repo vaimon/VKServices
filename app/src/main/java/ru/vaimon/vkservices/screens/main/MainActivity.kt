@@ -37,6 +37,10 @@ class MainActivity : AppCompatActivity(), MainContract.View {
             adapter = mPresenter.vkServicesRecyclerViewAdapter
             layoutManager = LinearLayoutManager(context)
         }
+
+        binding.btnRetry.setOnClickListener {
+            mPresenter.onRetryButtonClicked()
+        }
     }
 
     override fun toggleProgressBar(isProcessRunning: Boolean){
@@ -50,5 +54,9 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun showBottomDialog(fragment: BottomSheetDialogFragment) {
         fragment.show(supportFragmentManager, fragment.tag)
+    }
+
+    override fun toggleRetryButton(isVisible: Boolean) {
+        binding.isWorthRetrying = isVisible
     }
 }
